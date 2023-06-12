@@ -33,6 +33,9 @@ $routes->get('/', 'Home::index');
 $routes->get('/books', 'Books::index');
 $routes->get('/book/add', 'Books::add');
 $routes->post('/book/save', 'Books::save');
+$routes->get('/book/edit/(:num)', 'Books::edit/$1');
+$routes->post('/book/updated/(:num)', 'Books::updated/$1');
+$routes->post('/books/delete/(:num)', 'Books::delete/$1');
 
 /*
  * --------------------------------------------------------------------

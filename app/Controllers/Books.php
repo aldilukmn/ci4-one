@@ -15,11 +15,12 @@ class Books extends BaseController
     {
         $data = [
             'title' => 'Books',
+            'books' => $this->booksModel->findAll(),
         ];
         return view('books', $data);
     }
 
-    public function add() 
+    public function add()
     {
         session();
         $data = [
@@ -40,6 +41,42 @@ class Books extends BaseController
         ]);
 
         session()->setFlashdata('message', 'Book saved successfully');
+
+        return redirect()->to(base_url('/books'));
+    }
+
+    public function edit($id)
+    {
+        $data = [
+            'title' => 'Edit Book',
+            'book' => $this->booksModel->getBook($id),
+        ];
+
+        return view('edit', $data);
+    }
+
+    public function updated($id)
+    {
+        $data = [
+            'title' => $this->request->getVar('title'),
+            'author' => $this->request->getVar('author'),
+            'publisher' => $this->request->getVar('publisher'),
+            'pages' => $this->request->getVar('pages'),
+            'cover' => $this->request->getVar('cover'),
+        ];
+
+        $this->booksModel->update($id, $data);
+
+        session()->setFlashdata('message', 'Book updated successfully');
+
+        return redirect()->to(base_url('/books'));
+    }
+
+    public function delete($id)
+    {
+        $this->booksModel->delete($id);
+
+        session()->setFlashdata('message', 'Book deleted successfully');
 
         return redirect()->to(base_url('/books'));
     }
